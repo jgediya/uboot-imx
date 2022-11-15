@@ -5,7 +5,7 @@
 #
 
 obj-y += imx8mm_evk.o
-
+obj-$(CONFIG_ZIRCON_BOOT_IMAGE) += zircon.o
 ifdef CONFIG_SPL_BUILD
 obj-y += spl.o
 ifdef CONFIG_IMX8M_4G_LPDDR4
