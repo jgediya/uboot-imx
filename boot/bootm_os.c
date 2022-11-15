@@ -573,6 +573,9 @@ static boot_os_fn *boot_os[] = {
 #ifdef CONFIG_BOOTM_EFI
 	[IH_OS_EFI] = do_bootm_efi,
 #endif
+#ifdef CONFIG_ZIRCON_BOOT_IMAGE
+	[IH_OS_ZIRCON] = do_bootm_zircon,
+#endif
 };
 
 /* Allow for arch specific config before we boot */

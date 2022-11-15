@@ -69,35 +69,36 @@ enum ih_category {
  * inserted for backward compatibility.
  */
 enum {
-	IH_OS_INVALID		= 0,	/* Invalid OS	*/
-	IH_OS_OPENBSD,			/* OpenBSD	*/
-	IH_OS_NETBSD,			/* NetBSD	*/
-	IH_OS_FREEBSD,			/* FreeBSD	*/
-	IH_OS_4_4BSD,			/* 4.4BSD	*/
-	IH_OS_LINUX,			/* Linux	*/
-	IH_OS_SVR4,			/* SVR4		*/
-	IH_OS_ESIX,			/* Esix		*/
-	IH_OS_SOLARIS,			/* Solaris	*/
-	IH_OS_IRIX,			/* Irix		*/
-	IH_OS_SCO,			/* SCO		*/
-	IH_OS_DELL,			/* Dell		*/
-	IH_OS_NCR,			/* NCR		*/
-	IH_OS_LYNXOS,			/* LynxOS	*/
-	IH_OS_VXWORKS,			/* VxWorks	*/
-	IH_OS_PSOS,			/* pSOS		*/
-	IH_OS_QNX,			/* QNX		*/
-	IH_OS_U_BOOT,			/* Firmware	*/
-	IH_OS_RTEMS,			/* RTEMS	*/
-	IH_OS_ARTOS,			/* ARTOS	*/
-	IH_OS_UNITY,			/* Unity OS	*/
-	IH_OS_INTEGRITY,		/* INTEGRITY	*/
-	IH_OS_OSE,			/* OSE		*/
-	IH_OS_PLAN9,			/* Plan 9	*/
-	IH_OS_OPENRTOS,		/* OpenRTOS	*/
-	IH_OS_ARM_TRUSTED_FIRMWARE,     /* ARM Trusted Firmware */
-	IH_OS_TEE,			/* Trusted Execution Environment */
-	IH_OS_OPENSBI,			/* RISC-V OpenSBI */
-	IH_OS_EFI,			/* EFI Firmware (e.g. GRUB2) */
+	IH_OS_INVALID = 0, /* Invalid OS	*/
+	IH_OS_OPENBSD, /* OpenBSD	*/
+	IH_OS_NETBSD, /* NetBSD	*/
+	IH_OS_FREEBSD, /* FreeBSD	*/
+	IH_OS_4_4BSD, /* 4.4BSD	*/
+	IH_OS_LINUX, /* Linux	*/
+	IH_OS_SVR4, /* SVR4		*/
+	IH_OS_ESIX, /* Esix		*/
+	IH_OS_SOLARIS, /* Solaris	*/
+	IH_OS_IRIX, /* Irix		*/
+	IH_OS_SCO, /* SCO		*/
+	IH_OS_DELL, /* Dell		*/
+	IH_OS_NCR, /* NCR		*/
+	IH_OS_LYNXOS, /* LynxOS	*/
+	IH_OS_VXWORKS, /* VxWorks	*/
+	IH_OS_PSOS, /* pSOS		*/
+	IH_OS_QNX, /* QNX		*/
+	IH_OS_U_BOOT, /* Firmware	*/
+	IH_OS_RTEMS, /* RTEMS	*/
+	IH_OS_ARTOS, /* ARTOS	*/
+	IH_OS_UNITY, /* Unity OS	*/
+	IH_OS_INTEGRITY, /* INTEGRITY	*/
+	IH_OS_OSE, /* OSE		*/
+	IH_OS_PLAN9, /* Plan 9	*/
+	IH_OS_OPENRTOS, /* OpenRTOS	*/
+	IH_OS_ARM_TRUSTED_FIRMWARE, /* ARM Trusted Firmware */
+	IH_OS_TEE, /* Trusted Execution Environment */
+	IH_OS_OPENSBI, /* RISC-V OpenSBI */
+	IH_OS_EFI, /* EFI Firmware (e.g. GRUB2) */
+	IH_OS_ZIRCON, /* Zircon */
 
 	IH_OS_COUNT,
 };
@@ -529,6 +530,7 @@ int boot_get_setup(bootm_headers_t *images, uint8_t arch, ulong *setup_start,
 #define IMAGE_FORMAT_LEGACY	0x01	/* legacy image_header based format */
 #define IMAGE_FORMAT_FIT	0x02	/* new, libfdt based format */
 #define IMAGE_FORMAT_ANDROID	0x03	/* Android boot image */
+#define IMAGE_FORMAT_ZIRCON 0x04 /* Zircon boot image */
 
 ulong genimg_get_kernel_addr_fit(char * const img_addr,
 			         const char **fit_uname_config,
@@ -1568,5 +1570,14 @@ struct fit_loadable_tbl {
  * Return:      0 on success, non-zero otherwise
  */
 int fit_update(const void *fit);
+
+#if defined(CONFIG_ZIRCON_BOOT_IMAGE)
+int zircon_image_check_header(const void *hdr);
+int zircon_image_get_kernel(const void *hdr, int verify, ulong *os_data,
+			    ulong *os_len);
+ulong zircon_image_get_end(const void *hdr);
+ulong zircon_image_get_kload(const void *hdr);
+ulong zircon_image_get_comp(const void *hdr);
+#endif /* CONFIG_ZIRCON_BOOT_IMAGE */
 
 #endif	/* __IMAGE_H__ */

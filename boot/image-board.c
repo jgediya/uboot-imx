@@ -291,6 +291,11 @@ int genimg_get_format(const void *img_addr)
 	    !android_image_check_header(img_addr))
 		return IMAGE_FORMAT_ANDROID;
 
+#if defined(CONFIG_ZIRCON_BOOT_IMAGE)
+	if (!zircon_image_check_header(img_addr))
+		return IMAGE_FORMAT_ZIRCON;
+#endif
+
 	return IMAGE_FORMAT_INVALID;
 }
 
